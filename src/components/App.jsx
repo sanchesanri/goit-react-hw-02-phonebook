@@ -26,18 +26,20 @@ export class App extends Component {
     )
   }
 
-  handlerFilterChange = (value) => {
-    this.setState({ filter: value })
+  handlerFilterChange = (event) => {
+    this.setState({ filter: event.target.value })
   }
 
   isInContacts = ({ name }) => {
     const { contacts } = this.state;
 
-    return contacts.some(contact => contact.name === name)
+    return contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())
   }
 
   handleDeleteContact = (contactId) => {
-    this.setState({ contacts: this.state.contacts.filter(contact => contact.id !== contactId) })
+    this.setState(prevState => {
+      return ({ contacts: prevState.contacts.filter(contact => contact.id !== contactId) })
+    })
   }
 
 
@@ -49,11 +51,15 @@ export class App extends Component {
         My phone book
         <FormContact addContact={this.handleAddContact} />
         <h2>Contacts</h2>
-        <ContactsFilter dataContacts={this.state} handlerFilterChange={this.handlerFilterChange} />
-        {this.state.contacts && <ContactsList
-          options={filteredContacts}
-          handleDeleteContact={this.handleDeleteContact}
-        />}
+        <ContactsFilter
+          dataContacts={this.state}
+          handlerFilterChange={this.handlerFilterChange} />
+
+        {this.state.contacts.length > 0 &&
+          <ContactsList
+            options={filteredContacts}
+            handleDeleteContact={this.handleDeleteContact}
+          />}
       </div>
     )
   }

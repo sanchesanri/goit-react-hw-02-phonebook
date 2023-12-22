@@ -6,11 +6,6 @@ import { ButtonForm, Container, FormContactStyle, InputForm } from "./FormContac
 
 
 export class FormContact extends Component {
-
-    state = {
-        name: '',
-    }
-
     initialValues = {
         name: '',
         number: '',
@@ -22,23 +17,12 @@ export class FormContact extends Component {
 
     })
 
-    // handlerSubmit = (e) => {
-    //     e.preventDefault()
-
-    //     this.props.addContact({
-    //         id: nanoid(),
-    //         name: e.target.name.value,
-    //         number: e.target.number.value,
-    //     })
-    // }
-
     handlerSubmitFormic = ({ name, number }, actions) => {
         this.props.addContact({
             id: nanoid(),
             name,
             number,
         })
-        console.log(actions);
         actions.resetForm()
     }
 
@@ -53,16 +37,13 @@ export class FormContact extends Component {
                     onSubmit={this.handlerSubmitFormic}
                     validationSchema={this.schema}>
                     <FormContactStyle>
-                        {/* <Form onSubmit={this.handlerSubmit}> */}
                         <label >Name
                             <InputForm type="text" name="name" required />
                             <ErrorMessage name="name" />
-                            {/* <InputForm type="text" name="name" required /> */}
                         </label>
                         <label>Number
                             <InputForm type="tel" name="number" required />
                             <ErrorMessage name="number" />
-                            {/* <InputForm type="tel" name="number" required /> */}
                         </label>
                         <ButtonForm type="submit" onClick={this.handlerClick}>Add contact</ButtonForm>
                     </FormContactStyle>
